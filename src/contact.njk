@@ -1,0 +1,203 @@
+---
+layout: layouts/base.njk
+title: "Contact & Book Appointment | Shanti Dental Jaipur"
+description: "Book an appointment at Shanti Dental Hospital, 872 Salasar Bhawan, Kishanpole Bazar Road, Jaipur (near Chandpole Bazar). Call +91 96720 32241."
+canonicalPath: "/contact.html"
+permalink: /contact.html
+ogDescription: "Call +91 96720 32241 or book online. Open Mon–Sat 9:30 AM – 7:30 PM & Sun 9:00 AM – 2:00 PM."
+activeNav: contact
+headSchema: |
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Dentist",
+    "name": "Shanti Dental Hospital",
+    "url": "https://shantidentaljaipur.com/contact.html",
+    "logo": "https://shantidentaljaipur.com/assets/aistudio/WhatsApp_Image_2026-11-06_at_12.15.20_AM_a3d28e90.jpeg",
+    "telephone": "+919672032241",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "872, Salasar Bhawan, First Crossing, Khuteton Ka Rasta, Kishanpole Bazar Road",
+      "addressLocality": "Jaipur",
+      "addressRegion": "Rajasthan",
+      "postalCode": "302001",
+      "addressCountry": "IN"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        "opens": "09:30",
+        "closes": "19:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "09:00",
+        "closes": "14:00"
+      }
+    ],
+    "founder": {
+      "@type": "Physician",
+      "name": "Dr. Shubham Gupta",
+      "jobTitle": "Oral Physician & Dental Surgeon"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://shantidentaljaipur.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://shantidentaljaipur.com/contact.html" }
+    ]
+  }
+  </script>
+---
+
+    <section class="bg-[#FFF8F8] py-12 lg:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <nav aria-label="Breadcrumb" class="text-sm text-slate-600 mb-4">
+          <a href="/index.html" class="hover:text-[#C1121F]">Home</a> <span aria-hidden="true">/</span> <span class="text-[#1F2A30] font-medium">Contact</span>
+        </nav>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2A30]">Contact &amp; Book an Appointment</h1>
+        <p class="mt-3 text-lg text-slate-700 max-w-2xl">Call, message on WhatsApp, or submit the appointment form below to schedule your visit in Kishanpole Bazar, Jaipur.</p>
+      </div>
+    </section>
+
+    <section id="book-appointment" class="bg-white py-14">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+        <!-- Appointment Form -->
+        <div class="lg:col-span-7 bg-[#F7F9FA] rounded-2xl border border-slate-200 p-6 sm:p-8" data-form-container>
+          <h2 class="text-2xl font-bold text-[#1F2A30]">Appointment Request Form</h2>
+          <p class="mt-1 text-sm text-slate-600">Our clinic desk will call you back to confirm your slot with Dr. Shubham Gupta.</p>
+
+          <form name="contact-appointment" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-appointment-form class="mt-6 space-y-4">
+            <input type="hidden" name="form-name" value="contact-appointment" />
+            <p class="hidden"><label>Don’t fill this out if you’re human: <input name="bot-field" /></label></p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="c-name" class="block text-sm font-medium text-[#1F2A30] mb-1">Full Name *</label>
+                <input id="c-name" name="name" type="text" required autocomplete="name" placeholder="e.g. Ramesh Sharma" class="w-full min-h-[44px] px-4 rounded-xl border border-slate-300 bg-white text-base" />
+              </div>
+              <div>
+                <label for="c-phone" class="block text-sm font-medium text-[#1F2A30] mb-1">Mobile Number *</label>
+                <input id="c-phone" name="phone" type="tel" required autocomplete="tel" placeholder="10-digit mobile number" class="w-full min-h-[44px] px-4 rounded-xl border border-slate-300 bg-white text-base tabular-nums" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="c-treatment" class="block text-sm font-medium text-[#1F2A30] mb-1">Treatment Needed</label>
+                <select id="c-treatment" name="treatment" class="w-full min-h-[44px] px-4 rounded-xl border border-slate-300 bg-white text-base">
+                  <option value="General Dental Check-up">General Dental Check-up</option>
+                  <option value="Root Canal Treatment (RCT)">Root Canal Treatment (RCT)</option>
+                  <option value="Teeth Cleaning & Scaling">Teeth Cleaning &amp; Scaling</option>
+                  <option value="Gum Disease & Pyorrhea Treatment">Gum Disease &amp; Pyorrhea Treatment</option>
+                  <option value="Tooth-Coloured & Light-Cure Fillings">Tooth-Coloured &amp; Light-Cure Fillings</option>
+                  <option value="Tooth Sensitivity Treatment">Tooth Sensitivity Treatment</option>
+                  <option value="Fluorosis & Stained Teeth Treatment">Fluorosis &amp; Stained Teeth Treatment</option>
+                  <option value="Crooked Teeth Correction (Braces)">Crooked Teeth Correction (Braces)</option>
+                  <option value="Tooth Extraction">Tooth Extraction</option>
+                  <option value="Dental Implants, Crowns & Bridges">Dental Implants, Crowns &amp; Bridges</option>
+                  <option value="Dentures & Artificial Teeth">Dentures &amp; Artificial Teeth</option>
+                </select>
+              </div>
+              <div>
+                <label for="c-date" class="block text-sm font-medium text-[#1F2A30] mb-1">Preferred Date</label>
+                <input id="c-date" name="preferred_date" type="date" class="w-full min-h-[44px] px-4 rounded-xl border border-slate-300 bg-white text-base tabular-nums" />
+              </div>
+            </div>
+
+            <div>
+              <label for="c-message" class="block text-sm font-medium text-[#1F2A30] mb-1">Message / Problem Description (Optional)</label>
+              <textarea id="c-message" name="message" rows="4" placeholder="Briefly share any toothache, swelling, or preferred morning/evening time..." class="w-full p-4 rounded-xl border border-slate-300 bg-white text-base"></textarea>
+            </div>
+
+            <p data-form-error class="hidden text-sm font-semibold text-[#C1121F]"></p>
+
+            <button type="submit" class="w-full sm:w-auto min-h-[48px] px-7 py-3 rounded-xl bg-[#C1121F] hover:bg-[#9E0E19] text-white font-semibold text-base transition-colors">
+              Confirm Appointment Request
+            </button>
+          </form>
+
+          <!-- Inline Confirmation + Optional WhatsApp Button -->
+          <div data-form-success class="hidden mt-6 rounded-2xl bg-white border border-[#2A9D8F]/40 p-6">
+            <p class="text-sm font-semibold text-[#2A9D8F]">Request Submitted</p>
+            <h3 class="mt-1 text-xl font-bold text-[#1F2A30]">Thank you for contacting Shanti Dental Hospital!</h3>
+            <p class="mt-2 text-base text-slate-600">Our clinic desk will call you shortly to confirm your appointment time.</p>
+            <p data-booking-summary class="mt-2 text-sm font-medium text-[#1F2A30]"></p>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <a data-whatsapp-handoff href="https://wa.me/919672032241" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-xl bg-[#2A9D8F] hover:bg-[#238377] text-white text-sm font-semibold transition-colors">
+                Send Details on WhatsApp
+              </a>
+              <button type="button" data-form-reset class="min-h-[44px] px-5 py-2.5 rounded-xl border border-slate-300 text-sm font-medium text-[#1F2A30]">
+                Book Another Visit
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Contact & Timings -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="rounded-2xl bg-[#FFF8F8] border border-rose-100 p-6">
+            <h2 class="text-xl font-bold text-[#1F2A30]">Call or WhatsApp Directly</h2>
+            <p class="mt-2 text-sm text-slate-600">For urgent tooth pain or quick directions, speak with us directly:</p>
+            <div class="mt-5 flex flex-col gap-3">
+              <a href="tel:+919672032241" class="inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded-xl bg-[#C1121F] text-white font-semibold tabular-nums">
+                Call +91 96720 32241
+              </a>
+              <a href="https://wa.me/919672032241?text=Hello%2C%20I%20want%20to%20book%20an%20appointment%20at%20Shanti%20Dental%20Hospital" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 min-h-[48px] px-5 py-3 rounded-xl bg-[#2A9D8F] text-white font-semibold">
+                Message on WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-white border border-slate-200 overflow-hidden">
+            <div class="aspect-[16/10] overflow-hidden img-frame">
+              <img src="/images/thumbs/clinic-reception-waiting-area-jaipur.webp" alt="Shanti Dental Hospital reception and waiting lounge in Kishanpole Bazar, Jaipur" loading="lazy" class="w-full h-full object-cover" width="640" height="480" referrerpolicy="no-referrer" />
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-bold text-[#1F2A30]">Clinic Address</h2>
+            <p class="mt-3 text-base text-slate-700 leading-relaxed">
+              <strong>Shanti Dental Hospital</strong><br />
+              872, Salasar Bhawan, First Crossing, Khuteton Ka Rasta, Kishanpole Bazar Road, Jaipur, Rajasthan 302001
+            </p>
+            <p class="mt-2 text-sm font-semibold text-[#2A9D8F]">Landmark: Near Chandpole Bazar</p>
+
+            <h3 class="mt-6 text-base font-bold text-[#1F2A30]">Opening Hours</h3>
+            <table class="mt-2 w-full text-sm border-t border-slate-200">
+              <tbody>
+                <tr class="border-b border-slate-100">
+                  <td class="py-2.5 text-slate-600">Monday – Saturday</td>
+                  <td class="py-2.5 text-right font-semibold text-[#1F2A30] tabular-nums">9:30 AM – 7:30 PM</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 text-slate-600">Sunday</td>
+                  <td class="py-2.5 text-right font-semibold text-[#1F2A30] tabular-nums">9:00 AM – 2:00 PM</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <a href="https://www.google.com/maps/dir/?api=1&destination=872+Salasar+Bhawan+First+Crossing+Khuteton+Ka+Rasta+Kishanpole+Bazar+Road+Jaipur+302001" target="_blank" rel="noopener noreferrer" class="mt-5 w-full inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-xl border border-[#1F2A30] text-[#1F2A30] hover:bg-[#1F2A30] hover:text-white font-semibold text-sm transition-colors">
+              Get Directions on Google Maps
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Large Google Map Embed -->
+    <section class="bg-[#F7F9FA] py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <h2 class="text-2xl font-bold text-[#1F2A30] mb-5">Find Us Near Chandpole Bazar</h2>
+        <div class="rounded-2xl overflow-hidden border border-slate-200 h-80 sm:h-96 bg-white">
+          <iframe title="Shanti Dental Hospital location" src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s872+Salasar+Bhawan+Kishanpole+Bazar+Road+Jaipur+Rajasthan+302001!6i16" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </section>
+  

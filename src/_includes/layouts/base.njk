@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="{{ lang | default('en') }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}" />
+  {% set fullCanonical = (canonicalPath or page.url) | absoluteUrl(site.url) %}
+  <link rel="canonical" href="{{ fullCanonical }}" />
+  {% if alternateLinks %}
+  {% for alt in alternateLinks %}
+  <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
+  {% endfor %}
+  {% endif %}
+
+  <meta property="og:type" content="{{ ogType | default('website') }}" />
+  <meta property="og:title" content="{{ ogTitle or title }}" />
+  <meta property="og:description" content="{{ ogDescription or description }}" />
+  <meta property="og:url" content="{{ fullCanonical }}" />
+  <meta property="og:site_name" content="{{ site.name }}" />
+  {% if ogImage or image %}
+  <meta property="og:image" content="{{ (ogImage or image) | absoluteUrl(site.url) }}" />
+  {% endif %}
+  <meta name="twitter:card" content="summary_large_image" />
+  {% if ogImage or image or twitterMeta %}
+  <meta name="twitter:title" content="{{ ogTitle or title }}" />
+  <meta name="twitter:description" content="{{ ogDescription or description }}" />
+  {% endif %}
+  {% if ogImage or image %}
+  <meta name="twitter:image" content="{{ (ogImage or image) | absoluteUrl(site.url) }}" />
+  {% endif %}
+
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            crimson: '#C1121F',
+            charcoal: '#1F2A30',
+            blush: '#FFF8F8',
+            mist: '#F7F9FA',
+            tealbrand: '#2A9D8F'
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="/css/style.css" />
+  {% block headSchema %}{% if headSchema %}{{ headSchema | safe }}{% endif %}{% endblock %}
+</head>
+<body class="bg-white text-[#1F2A30]{% if isHindi %} font-hindi{% endif %}">
+
+  <!-- Top Utility Bar (Desktop) -->
+  <div id="top-utility-bar" class="hidden lg:block bg-[#1F2A30] text-slate-200 text-xs">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between gap-4">
+      <p class="tabular-nums">Mon–Sat {{ site.timingsWeekday }} &middot; Sun {{ site.timingsSunday }} &middot; {{ site.landmark }}, Jaipur</p>
+      <div class="flex items-center gap-5 shrink-0">
+        <a href="tel:{{ site.phoneHref }}" class="hover:text-white font-medium tabular-nums inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5 text-[#C1121F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+          {{ site.phone }}
+        </a>
+        <span aria-hidden="true" class="text-slate-500">|</span>
+        {% if isHindi %}
+        <a href="/index.html" class="font-medium text-white hover:text-rose-200 underline underline-offset-4">English</a>
+        {% else %}
+        <a href="/hi/index.html" lang="hi" class="font-hindi font-medium text-white hover:text-rose-200 transition-colors">हिंदी</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Shared Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 lg:h-20 flex items-center justify-between gap-4 lg:gap-8">
+      <a href="{% if isHindi %}/hi/index.html{% else %}/index.html{% endif %}" class="shrink-0 flex items-center" aria-label="{% if isHindi %}Shanti Dental Hospital Hindi Home{% else %}Shanti Dental Hospital Home{% endif %}">
+        <img src="{{ site.logo }}" alt="{% if isHindi %}शान्ति डेन्टल हॉस्पिटल लोगो{% else %}Shanti Dental Hospital logo{% endif %}" class="h-11 lg:h-14 w-auto object-contain" />
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav aria-label="Main navigation" class="hidden lg:flex items-center gap-6 text-[15px] font-medium text-[#1F2A30]">
+        <a href="/index.html" class="{% if activeNav == 'home' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">{% if isHindi %}Home (English){% else %}Home{% endif %}</a>
+        <a href="/about.html" class="{% if activeNav == 'about' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">About</a>
+
+        <div class="relative nav-dropdown">
+          <button id="desktop-treatments-btn" type="button" aria-expanded="false" aria-haspopup="true" class="inline-flex items-center gap-1 {% if activeNav == 'treatments' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0 py-2">
+            <span>Treatments</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div class="nav-dropdown-menu absolute left-0 top-full pt-2 w-72 z-50">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-xl p-2">
+              <a href="/treatments.html" class="block px-3.5 py-2.5 rounded-xl text-sm font-semibold text-[#C1121F] hover:bg-[#FFF8F8]">All Dental Treatments</a>
+              <div class="my-1 border-t border-slate-100"></div>
+              <a href="/treatments/root-canal-treatment.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'rct' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Root Canal Treatment (RCT)</a>
+              <a href="/treatments/teeth-cleaning-scaling.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'scaling' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Teeth Cleaning &amp; Scaling</a>
+              <a href="/treatments/gum-disease-pyorrhea.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'gum' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Gum Disease &amp; Pyorrhea</a>
+              <a href="/treatments/tooth-coloured-fillings.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'fillings' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Tooth-Coloured Fillings</a>
+              <a href="/treatments/tooth-sensitivity-treatment.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'sensitivity' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Tooth Sensitivity Treatment</a>
+              <a href="/treatments/fluorosis-stained-teeth.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'fluorosis' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Fluorosis &amp; Stained Teeth</a>
+              <a href="/treatments/crooked-teeth-braces.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'braces' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Crooked Teeth &amp; Braces</a>
+              <a href="/treatments/tooth-extraction.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'extraction' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Tooth Extraction</a>
+              <a href="/treatments/dental-implants-crowns-bridges.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'implants' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Implants, Crowns &amp; Bridges</a>
+              <a href="/treatments/dentures-artificial-teeth.html" class="block px-3.5 py-2 rounded-xl text-sm {% if activeTreatment == 'dentures' %}bg-[#FFF8F8] text-[#C1121F] font-semibold{% else %}hover:bg-[#FFF8F8] hover:text-[#C1121F]{% endif %}">Dentures &amp; Artificial Teeth</a>
+            </div>
+          </div>
+        </div>
+
+        <a href="/doctor.html" class="{% if activeNav == 'doctor' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">Doctor</a>
+        <a href="/gallery.html" class="{% if activeNav == 'gallery' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">Gallery</a>
+        <a href="/aftercare.html" class="{% if activeNav == 'aftercare' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">Aftercare</a>
+        <a href="/blog/" class="{% if activeNav == 'blog' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">Blog</a>
+        <a href="/contact.html" class="{% if activeNav == 'contact' %}text-[#C1121F] font-semibold{% else %}hover:text-[#C1121F] transition-colors{% endif %} whitespace-nowrap shrink-0">Contact</a>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex items-center gap-3 shrink-0">
+        <a href="/contact.html#book-appointment" class="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-xl bg-[#C1121F] hover:bg-[#9E0E19] text-white text-sm font-semibold whitespace-nowrap shrink-0 transition-colors">
+          Book Appointment
+        </a>
+      </div>
+
+      <!-- Mobile Language + Menu Button -->
+      <div class="flex lg:hidden items-center gap-2">
+        {% if isHindi %}
+        <a href="/index.html" class="min-h-[44px] px-3 inline-flex items-center justify-center rounded-xl border border-slate-200 text-sm font-medium">English</a>
+        {% else %}
+        <a href="/hi/index.html" lang="hi" class="font-hindi min-h-[44px] px-3 inline-flex items-center justify-center rounded-xl border border-slate-200 text-sm font-medium text-[#1F2A30]">हिंदी</a>
+        {% endif %}
+        <button id="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu" class="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-xl border border-slate-200 text-[#1F2A30]">
+          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white">
+      <nav aria-label="Mobile navigation" class="max-w-7xl mx-auto px-4 py-4 space-y-1">
+        <a href="/index.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'home' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">{% if isHindi %}Home (English){% else %}Home{% endif %}</a>
+        <a href="/about.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'about' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">About</a>
+        <div>
+          <button id="mobile-treatments-toggle" type="button" aria-expanded="false" class="w-full flex items-center justify-between min-h-[44px] px-3 rounded-xl {% if activeNav == 'treatments' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">
+            <span>Treatments</span>
+            <svg id="mobile-treatments-chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+          </button>
+          <div id="mobile-treatments-list" class="hidden pl-4 pr-2 py-1 space-y-1">
+            <a href="/treatments.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm font-semibold text-[#C1121F]">All Treatments Overview</a>
+            <a href="/treatments/root-canal-treatment.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Root Canal Treatment (RCT)</a>
+            <a href="/treatments/teeth-cleaning-scaling.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Teeth Cleaning &amp; Scaling</a>
+            <a href="/treatments/gum-disease-pyorrhea.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Gum Disease &amp; Pyorrhea</a>
+            <a href="/treatments/tooth-coloured-fillings.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Tooth-Coloured Fillings</a>
+            <a href="/treatments/tooth-sensitivity-treatment.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Tooth Sensitivity Treatment</a>
+            <a href="/treatments/fluorosis-stained-teeth.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Fluorosis &amp; Stained Teeth</a>
+            <a href="/treatments/crooked-teeth-braces.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Crooked Teeth &amp; Braces</a>
+            <a href="/treatments/tooth-extraction.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Tooth Extraction</a>
+            <a href="/treatments/dental-implants-crowns-bridges.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Implants, Crowns &amp; Bridges</a>
+            <a href="/treatments/dentures-artificial-teeth.html" class="flex items-center min-h-[44px] px-3 rounded-xl text-sm text-slate-700">Dentures &amp; Artificial Teeth</a>
+          </div>
+        </div>
+        <a href="/doctor.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'doctor' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">Doctor</a>
+        <a href="/gallery.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'gallery' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">Gallery</a>
+        <a href="/aftercare.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'aftercare' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">Aftercare</a>
+        <a href="/blog/" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'blog' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">Blog</a>
+        <a href="/contact.html" class="flex items-center min-h-[44px] px-3 rounded-xl {% if activeNav == 'contact' %}font-semibold text-[#C1121F] bg-[#FFF8F8]{% else %}font-medium text-[#1F2A30] hover:bg-[#F7F9FA]{% endif %}">Contact</a>
+        <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+          <a href="/contact.html#book-appointment" class="w-full min-h-[44px] inline-flex items-center justify-center rounded-xl bg-[#C1121F] text-white font-semibold">Book Appointment</a>
+          <p class="text-xs text-slate-500 text-center tabular-nums">Mon–Sat {{ site.timingsWeekday }} &middot; Sun {{ site.timingsSunday }}</p>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% block content %}{{ content | safe }}{% endblock %}
+  </main>
+  {% block extraBody %}{% if extraBody %}{{ extraBody | safe }}{% endif %}{% endblock %}
+
+  <!-- Shared Charcoal Footer -->
+  <footer class="bg-[#1F2A30] text-slate-200 pt-14 pb-20 lg:pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <a href="/index.html" class="inline-block bg-white rounded-xl p-2">
+            <img src="{{ site.logo }}" alt="Shanti Dental Hospital logo" loading="lazy" class="h-12 w-auto object-contain" />
+          </a>
+          <p class="mt-4 text-sm text-slate-300 leading-relaxed">
+            {% if isHindi %}
+            डॉ. शुभम गुप्ता (BDS, MIDA) द्वारा किशनपोल बाजार, जयपुर में भरोसेमंद दंत चिकित्सा।
+            {% else %}
+            Gentle, modern family dental care by {{ site.doctorName }} ({{ site.doctorCredentials }}) in Kishanpole Bazar, Jaipur.
+            {% endif %}
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-white mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/index.html" class="hover:text-white transition-colors">{% if isHindi %}Home (English){% else %}Home{% endif %}</a></li>
+            <li><a href="/about.html" class="hover:text-white transition-colors">About Hospital</a></li>
+            <li><a href="/treatments.html" class="hover:text-white transition-colors">All Treatments</a></li>
+            <li><a href="/doctor.html" class="hover:text-white transition-colors">{{ site.doctorName }}</a></li>
+            <li><a href="/gallery.html" class="hover:text-white transition-colors">Clinic Gallery</a></li>
+            <li><a href="/aftercare.html" class="hover:text-white transition-colors">Aftercare Guide (EN / HI)</a></li>
+            <li><a href="/blog/" class="hover:text-white transition-colors">Dental Blog</a></li>
+            <li><a href="/contact.html" class="hover:text-white transition-colors">Contact &amp; Book</a></li>
+            {% if not isHindi %}
+            <li><a href="/hi/index.html" lang="hi" class="font-hindi hover:text-white transition-colors">हिंदी होम पेज</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-white mb-4">Treatments</h3>
+          <ul class="space-y-2 text-sm">
+            <li><a href="/treatments/root-canal-treatment.html" class="hover:text-white">Root Canal Treatment (RCT)</a></li>
+            <li><a href="/treatments/teeth-cleaning-scaling.html" class="hover:text-white">Teeth Cleaning &amp; Scaling</a></li>
+            <li><a href="/treatments/gum-disease-pyorrhea.html" class="hover:text-white">Gum Disease &amp; Pyorrhea</a></li>
+            <li><a href="/treatments/tooth-coloured-fillings.html" class="hover:text-white">Tooth-Coloured Fillings</a></li>
+            <li><a href="/treatments/tooth-sensitivity-treatment.html" class="hover:text-white">Tooth Sensitivity</a></li>
+            <li><a href="/treatments/fluorosis-stained-teeth.html" class="hover:text-white">Fluorosis &amp; Stained Teeth</a></li>
+            <li><a href="/treatments/crooked-teeth-braces.html" class="hover:text-white">Crooked Teeth (Braces)</a></li>
+            <li><a href="/treatments/tooth-extraction.html" class="hover:text-white">Tooth Extraction</a></li>
+            <li><a href="/treatments/dental-implants-crowns-bridges.html" class="hover:text-white">Implants, Crowns &amp; Bridges</a></li>
+            <li><a href="/treatments/dentures-artificial-teeth.html" class="hover:text-white">Dentures &amp; Artificial Teeth</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-white mb-4">Visit &amp; Timings</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            {{ site.address }}<br />
+            <span class="text-slate-400">Landmark: {{ site.landmark }}</span>
+          </p>
+          <p class="mt-3 text-sm">
+            Phone / WhatsApp: <a href="tel:{{ site.phoneHref }}" class="text-white font-semibold hover:underline tabular-nums">{{ site.phone }}</a>
+          </p>
+          <table class="mt-4 w-full text-xs text-slate-300 border-t border-slate-700">
+            <tbody>
+              <tr class="border-b border-slate-700/70">
+                <td class="py-2">Mon – Sat</td>
+                <td class="py-2 text-right tabular-nums">{{ site.timingsWeekday }}</td>
+              </tr>
+              <tr>
+                <td class="py-2">Sunday</td>
+                <td class="py-2 text-right tabular-nums">{{ site.timingsSunday }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <a href="{{ site.directionsUrl }}" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center justify-center min-h-[44px] px-4 py-2 rounded-xl bg-[#C1121F] hover:bg-[#9E0E19] text-white text-sm font-semibold transition-colors">
+            Get Directions
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Google Map Embed -->
+      <div class="mt-10 rounded-2xl overflow-hidden border border-slate-700 h-52">
+        <iframe title="Shanti Dental Hospital location" src="{{ site.mapEmbedUrl }}" class="w-full h-full border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+        <p>&copy; 2026 {{ site.name }}. All rights reserved.</p>
+        <p>Kishanpole Bazar, Jaipur &middot; {{ site.doctorName }} ({{ site.doctorCredentials }})</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Call (mobile left) & WhatsApp (bottom right) -->
+  <div id="floating-actions" class="no-print">
+    <a href="tel:{{ site.phoneHref }}" class="lg:hidden fixed bottom-3 left-3 z-50 inline-flex items-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-[#1F2A30] text-white text-sm font-semibold shadow-lg">
+      <svg class="w-4 h-4 text-[#C1121F]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/></svg>
+      Call Now
+    </a>
+
+    <a href="{{ site.whatsappUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp" class="fixed bottom-3 right-3 z-50 inline-flex items-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-[#2A9D8F] hover:bg-[#238377] text-white text-sm font-semibold shadow-lg transition-colors">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.344 5l-1.406 5.156 5.281-1.375a9.923 9.923 0 004.75 1.219c5.516 0 9.969-4.453 9.969-9.969S17.547 2 12.031 2zm5.797 14.125c-.25.703-1.422 1.344-1.969 1.422-.5.078-1.141.109-1.844-.109-.422-.141-.969-.313-1.672-.625-2.953-1.266-4.875-4.25-5.016-4.438-.141-.203-1.203-1.594-1.203-3.047 0-1.453.766-2.172 1.031-2.469.266-.297.578-.375.781-.375h.563c.172 0 .406-.063.641.484.25.578.828 2.016.906 2.156.078.156.125.328.031.531-.109.203-.156.328-.313.5-.141.172-.313.391-.438.516-.141.141-.297.297-.125.594.172.297.766 1.266 1.641 2.047 1.125 1 2.078 1.313 2.375 1.453.297.141.469.125.641-.078.172-.203.75-.875.953-1.172.203-.297.406-.25.672-.141.281.109 1.75.828 2.047.984.297.141.5.219.578.344.078.125.078.719-.172 1.422z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

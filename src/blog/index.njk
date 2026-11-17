@@ -1,0 +1,107 @@
+---
+layout: layouts/base.njk
+title: Dental Health Blog & Patient Guides | Shanti Dental Hospital Jaipur
+description: Read clear, trustworthy dental care guides from Dr. Shubham Gupta (BDS, MIDA) at Shanti Dental Hospital, Kishanpole Bazar, Jaipur.
+ogType: website
+activeNav: blog
+pagination:
+  data: collections.blog
+  size: 9
+  alias: posts
+permalink: "/blog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
+headSchema: |
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://shantidentaljaipur.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://shantidentaljaipur.com/blog/" }
+    ]
+  }
+  </script>
+---
+
+<section class="bg-[#FFF8F8] py-12 lg:py-16 border-b border-rose-100/80">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <nav aria-label="Breadcrumb" class="text-sm text-slate-600 mb-4">
+      <a href="/index.html" class="hover:text-[#C1121F]">Home</a> /
+      <span class="text-[#1F2A30] font-medium">Blog</span>
+    </nav>
+    <h1 class="text-3xl sm:text-4xl font-extrabold text-[#1F2A30]">Dental Health Blog &amp; Patient Guides</h1>
+    <p class="mt-3 text-base sm:text-lg text-slate-700 max-w-2xl leading-relaxed">
+      Simple, honest advice from {{ site.doctorName }} ({{ site.doctorCredentials }}) to help Jaipur families care for their teeth, gums, and smiles.
+    </p>
+  </div>
+</section>
+
+<section class="bg-white py-12 lg:py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    {% if posts.length > 0 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {% for post in posts %}
+      <article class="card-surface bg-white overflow-hidden flex flex-col justify-between">
+        <div>
+          {% if post.data.image %}
+          <a href="{{ post.url }}" class="block aspect-[16/10] overflow-hidden img-frame">
+            <img src="{{ post.data.image }}" alt="{{ post.data.image_alt or post.data.title }}" loading="lazy" class="w-full h-full object-cover" />
+          </a>
+          {% endif %}
+          <div class="p-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              {% if post.data.category %}
+              <span class="font-semibold text-[#2A9D8F] bg-[#2A9D8F]/10 px-2.5 py-0.5 rounded-full">{{ post.data.category }}</span>
+              {% endif %}
+              <time datetime="{{ post.date | isoDate }}" class="text-slate-500">{{ post.date | readableDate }}</time>
+            </div>
+            <h2 class="mt-3 text-xl font-bold text-[#1F2A30] leading-snug">
+              <a href="{{ post.url }}" class="hover:text-[#C1121F] transition-colors">{{ post.data.title }}</a>
+            </h2>
+            <p class="mt-2.5 text-sm text-slate-600 leading-relaxed">{{ post.data.description }}</p>
+          </div>
+        </div>
+        <div class="px-6 pb-6 pt-2 flex items-center justify-between border-t border-slate-100 mx-6 px-0">
+          <span class="text-xs font-medium text-slate-500">By {{ post.data.author or site.doctorName }}</span>
+          <a href="{{ post.url }}" class="inline-flex items-center gap-1 text-sm font-semibold text-[#C1121F] hover:underline min-h-[44px]">
+            Read Article &rarr;
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if pagination.pages.length > 1 %}
+    <nav aria-label="Blog pagination" class="mt-12 flex flex-wrap items-center justify-center gap-2">
+      {% if pagination.href.previous %}
+      <a href="{{ pagination.href.previous }}" class="inline-flex items-center justify-center min-h-[44px] px-4 rounded-xl border border-slate-300 text-sm font-semibold text-[#1F2A30] hover:border-[#C1121F] hover:text-[#C1121F] transition-colors">&larr; Newer Posts</a>
+      {% endif %}
+
+      {% for pageEntry in pagination.pages %}
+      <a href="{{ pagination.hrefs[loop.index0] }}" {% if page.url == pagination.hrefs[loop.index0] %}aria-current="page" class="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-3 rounded-xl bg-[#C1121F] text-white text-sm font-semibold"{% else %}class="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-3 rounded-xl border border-slate-300 text-sm font-medium text-[#1F2A30] hover:border-[#C1121F] hover:text-[#C1121F]"{% endif %}>
+        {{ loop.index }}
+      </a>
+      {% endfor %}
+
+      {% if pagination.href.next %}
+      <a href="{{ pagination.href.next }}" class="inline-flex items-center justify-center min-h-[44px] px-4 rounded-xl border border-slate-300 text-sm font-semibold text-[#1F2A30] hover:border-[#C1121F] hover:text-[#C1121F] transition-colors">Older Posts &rarr;</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="rounded-2xl bg-[#F7F9FA] border border-slate-200 p-10 text-center">
+      <p class="text-base text-slate-700">New dental care articles are coming soon.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="bg-[#F7F9FA] border-t border-slate-200/80 py-14">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+    <h2 class="text-2xl sm:text-3xl font-bold text-[#1F2A30]">Have a Toothache or Dental Question?</h2>
+    <p class="mt-3 text-base text-slate-600 max-w-xl mx-auto">Visit {{ site.name }} in Kishanpole Bazar, Jaipur or book an appointment online.</p>
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-4">
+      <a href="/contact.html#book-appointment" class="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-xl bg-[#C1121F] hover:bg-[#9E0E19] text-white font-semibold whitespace-nowrap transition-colors">Book Appointment</a>
+      <a href="{{ site.whatsappUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-xl bg-[#2A9D8F] hover:bg-[#238377] text-white font-semibold whitespace-nowrap transition-colors">WhatsApp Us</a>
+    </div>
+  </div>
+</section>

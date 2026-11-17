@@ -1,0 +1,277 @@
+/* Shanti Dental Hospital — Custom Styles & Print Sheet */
+:root {
+  --color-crimson: #C1121F;
+  --color-crimson-hover: #9E0E19;
+  --color-charcoal: #1F2A30;
+  --color-blush: #FFF8F8;
+  --color-mist: #F7F9FA;
+  --color-teal: #2A9D8F;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1F2A30;
+  background-color: #FFFFFF;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  text-wrap: balance;
+}
+
+.font-hindi,
+[lang="hi"] {
+  font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Accessible focus outlines */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #C1121F;
+  outline-offset: 2px;
+}
+
+/* Subtle surface elevation & interactive micro-transitions */
+.card-surface {
+  border-radius: 16px;
+  border: 1px solid rgba(31, 42, 48, 0.08);
+  box-shadow: 0 2px 12px rgba(31, 42, 48, 0.04);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms ease;
+}
+
+.card-surface:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(31, 42, 48, 0.08);
+  border-color: rgba(193, 18, 31, 0.22);
+}
+
+/* Dropdown panel transition */
+.nav-dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+}
+
+.nav-dropdown.is-open .nav-dropdown-menu,
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Accordion smooth icon rotation */
+.faq-trigger[aria-expanded="true"] .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-chevron {
+  transition: transform 180ms ease;
+}
+
+/* Lightbox backdrop */
+.lightbox-backdrop {
+  backdrop-filter: blur(4px);
+}
+
+/* Fallback frame for lazy images */
+.img-frame {
+  background: linear-gradient(135deg, #F7F9FA 0%, #FFF8F8 100%);
+}
+
+/* Patient Reviews Infinite Carousel */
+.reviews-viewport {
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+}
+
+.reviews-viewport:active {
+  cursor: grabbing;
+}
+
+.reviews-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.review-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.review-clamp.is-expanded {
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .reviews-viewport {
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+    cursor: auto;
+  }
+  .reviews-viewport::-webkit-scrollbar {
+    display: block;
+    height: 8px;
+  }
+  .reviews-viewport::-webkit-scrollbar-thumb {
+    background: rgba(31, 42, 48, 0.25);
+    border-radius: 9999px;
+  }
+  [data-review-clone] {
+    display: none !important;
+  }
+}
+
+/* Print stylesheet — clean patient handout especially for Aftercare page */
+@media print {
+  header,
+  footer,
+  .no-print,
+  #mobile-menu,
+  #floating-actions,
+  #top-utility-bar {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-only-header {
+    display: block !important;
+    border-bottom: 2px solid #C1121F;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .card-surface {
+    box-shadow: none !important;
+    border: 1px solid #CCCCCC !important;
+    break-inside: avoid;
+  }
+}
+
+/* Blog article Markdown prose styling */
+.blog-prose {
+  font-size: 1.0625rem;
+  line-height: 1.78;
+  color: #334155;
+}
+
+.blog-prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.blog-prose h2 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+  color: #1F2A30;
+}
+
+.blog-prose h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #1F2A30;
+}
+
+.blog-prose p {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.blog-prose ul,
+.blog-prose ol {
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.blog-prose ul {
+  list-style-type: disc;
+}
+
+.blog-prose ol {
+  list-style-type: decimal;
+}
+
+.blog-prose li + li {
+  margin-top: 0.5rem;
+}
+
+.blog-prose strong {
+  color: #1F2A30;
+  font-weight: 600;
+}
+
+.blog-prose a {
+  color: #C1121F;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.blog-prose a:hover {
+  color: #9E0E19;
+}
+
+.blog-prose blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background-color: #FFF8F8;
+  border-left: 4px solid #C1121F;
+  border-radius: 0 12px 12px 0;
+  color: #1F2A30;
+}
+
+.blog-prose img {
+  margin: 1.5rem 0;
+  border-radius: 16px;
+  border: 1px solid rgba(31, 42, 48, 0.08);
+  width: 100%;
+  height: auto;
+}
+

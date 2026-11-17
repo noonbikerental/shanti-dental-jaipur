@@ -1,0 +1,31 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+{%- for item in collections.all %}
+  {%- if item.url and not item.data.eleventyExcludeFromCollections %}
+  <url>
+    <loc>{{ item.url | absoluteUrl(site.url) }}</loc>
+    {%- if item.url == '/' or item.url == '/hi/' %}
+    <xhtml:link rel="alternate" hreflang="en-IN" href="{{ site.url }}/" />
+    <xhtml:link rel="alternate" hreflang="hi-IN" href="{{ site.url }}/hi/" />
+    {%- endif %}
+    {%- if item.date %}
+    <lastmod>{{ item.date | isoDate }}</lastmod>
+    {%- endif %}
+    {%- if item.url == '/' %}
+    <priority>1.0</priority>
+    {%- elif item.url == '/hi/' or item.url == '/treatments.html' or item.url == '/contact.html' or item.url == '/blog/' %}
+    <priority>0.9</priority>
+    {%- elif item.url == '/gallery.html' or item.url == '/aftercare.html' %}
+    <priority>0.7</priority>
+    {%- else %}
+    <priority>0.8</priority>
+    {%- endif %}
+  </url>
+  {%- endif %}
+{%- endfor %}
+</urlset>

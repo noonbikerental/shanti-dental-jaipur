@@ -1,0 +1,8 @@
+{
+  "layout": "layouts/post.njk",
+  "tags": ["blog"],
+  "author": "Dr. Shubham Gupta",
+  "ogType": "article",
+  "activeNav": "blog",
+  "permalink": "/blog/{{ page.fileSlug }}/index.html"
+}

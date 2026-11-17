@@ -1,0 +1,173 @@
+{% extends "layouts/base.njk" %}
+
+{% block headSchema %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ title | jsonStringify | safe }},
+    "description": {{ description | jsonStringify | safe }},
+    "image": {{ (image or site.defaultOgImage) | absoluteUrl(site.url) | jsonStringify | safe }},
+    "datePublished": {{ date | isoDate | jsonStringify | safe }},
+    "dateModified": {{ date | isoDate | jsonStringify | safe }},
+    "articleSection": {{ (category or "Dental Care") | jsonStringify | safe }},
+    "author": {
+      "@type": "Person",
+      "name": {{ (author or site.doctorName) | jsonStringify | safe }},
+      "jobTitle": {{ site.doctorRole | jsonStringify | safe }},
+      "url": "https://shantidentaljaipur.com/doctor.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": {{ site.name | jsonStringify | safe }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ site.logo | absoluteUrl(site.url) | jsonStringify | safe }}
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ page.url | absoluteUrl(site.url) | jsonStringify | safe }}
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://shantidentaljaipur.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://shantidentaljaipur.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": {{ title | jsonStringify | safe }}, "item": {{ page.url | absoluteUrl(site.url) | jsonStringify | safe }} }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block content %}
+  <!-- Article Header -->
+  <section class="bg-[#FFF8F8] py-10 lg:py-14 border-b border-rose-100/80">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav aria-label="Breadcrumb" class="text-sm text-slate-600 mb-5 flex flex-wrap items-center gap-2">
+        <a href="/index.html" class="hover:text-[#C1121F]">Home</a>
+        <span aria-hidden="true">/</span>
+        <a href="/blog/" class="hover:text-[#C1121F]">Blog</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-[#1F2A30] font-medium truncate max-w-xs sm:max-w-md">{{ title }}</span>
+      </nav>
+
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        {% if category %}
+        <span class="inline-block text-xs font-semibold text-[#2A9D8F] bg-white border border-[#2A9D8F]/30 px-3 py-1 rounded-full">{{ category }}</span>
+        {% endif %}
+        <time datetime="{{ date | isoDate }}" class="text-sm font-medium text-slate-600">{{ date | readableDate }}</time>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold text-[#1F2A30] leading-tight">
+        {{ title }}
+      </h1>
+      <p class="mt-4 text-base sm:text-lg text-slate-700 leading-relaxed">
+        {{ description }}
+      </p>
+
+      <!-- Author Box -->
+      <div class="mt-6 flex items-center gap-4 bg-white rounded-2xl border border-slate-200 p-4 shadow-sm max-w-xl">
+        <img src="{{ site.doctorImage }}" alt="{{ author or site.doctorName }}" class="w-12 h-12 rounded-xl object-cover object-top shrink-0 border border-slate-200" width="96" height="96" />
+        <div>
+          <p class="text-sm font-bold text-[#1F2A30]">{{ author or site.doctorName }} <span class="font-medium text-[#2A9D8F]">({{ site.doctorCredentials }})</span></p>
+          <p class="text-xs text-slate-600">{{ site.doctorRole }} &middot; {{ site.name }}, Kishanpole Bazar, Jaipur</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Image & Article Body -->
+  <article class="bg-white py-10 lg:py-14">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      {% if image %}
+      <div class="mb-8 rounded-2xl overflow-hidden border border-slate-200 shadow-sm img-frame">
+        <img src="{{ image }}" alt="{{ image_alt or title }}" class="w-full h-auto max-h-[480px] object-cover" />
+      </div>
+      {% endif %}
+
+      <div class="blog-prose">
+        {{ content | safe }}
+      </div>
+
+      <!-- Author Bio Card at End -->
+      <div class="mt-10 rounded-2xl bg-[#F7F9FA] border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <img src="{{ site.doctorImage }}" alt="{{ author or site.doctorName }}" loading="lazy" class="w-16 h-16 rounded-2xl object-cover object-top shrink-0 border border-slate-200" width="128" height="128" />
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-wide text-[#2A9D8F]">Written &amp; Reviewed By</p>
+          <h2 class="mt-0.5 text-lg font-bold text-[#1F2A30]">{{ author or site.doctorName }} ({{ site.doctorCredentials }})</h2>
+          <p class="mt-1 text-sm text-slate-600 leading-relaxed">{{ site.doctorRole }} at {{ site.name }}, Kishanpole Bazar, Jaipur. Have questions about this topic? Visit us Monday–Saturday (9:30 AM – 7:30 PM) or Sunday morning (9:00 AM – 2:00 PM).</p>
+        </div>
+      </div>
+
+      <!-- Book Appointment + WhatsApp CTA Box -->
+      <div class="mt-8 rounded-2xl bg-[#FFF8F8] border border-rose-200/80 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2A30]">Need a Calm Dental Check-Up in Jaipur?</h2>
+          <p class="mt-2 text-sm sm:text-base text-slate-700 max-w-xl">Book your consultation with {{ site.doctorName }} at Kishanpole Bazar or message us directly on WhatsApp.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <a href="/contact.html#book-appointment" class="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-xl bg-[#C1121F] hover:bg-[#9E0E19] text-white text-sm font-semibold whitespace-nowrap transition-colors">
+            Book Appointment
+          </a>
+          <a href="{{ site.whatsappUrl }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-xl bg-[#2A9D8F] hover:bg-[#238377] text-white text-sm font-semibold whitespace-nowrap transition-colors">
+            WhatsApp Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- Related Posts -->
+  {% set related = collections.blog | relatedPosts(page.url, category, 3) %}
+  {% if related.length > 0 %}
+  <section class="bg-[#F7F9FA] py-12 lg:py-16 border-t border-slate-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#1F2A30]">Related Dental Guides</h2>
+          <p class="mt-1.5 text-base text-slate-600">Helpful patient advice from {{ site.name }}.</p>
+        </div>
+        <a href="/blog/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#C1121F] hover:underline whitespace-nowrap">
+          View All Articles &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for post in related %}
+        <article class="card-surface bg-white overflow-hidden flex flex-col justify-between">
+          <div>
+            {% if post.data.image %}
+            <a href="{{ post.url }}" class="block aspect-[16/10] overflow-hidden img-frame">
+              <img src="{{ post.data.image }}" alt="{{ post.data.image_alt or post.data.title }}" loading="lazy" class="w-full h-full object-cover" />
+            </a>
+            {% endif %}
+            <div class="p-6">
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                {% if post.data.category %}
+                <span class="font-semibold text-[#2A9D8F] bg-[#2A9D8F]/10 px-2.5 py-0.5 rounded-full">{{ post.data.category }}</span>
+                {% endif %}
+                <time datetime="{{ post.date | isoDate }}" class="text-slate-500">{{ post.date | readableDate }}</time>
+              </div>
+              <h3 class="mt-3 text-lg font-bold text-[#1F2A30] leading-snug">
+                <a href="{{ post.url }}" class="hover:text-[#C1121F] transition-colors">{{ post.data.title }}</a>
+              </h3>
+              <p class="mt-2 text-sm text-slate-600 leading-relaxed">{{ post.data.description }}</p>
+            </div>
+          </div>
+          <div class="px-6 pb-6 pt-2">
+            <a href="{{ post.url }}" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[#C1121F] hover:underline min-h-[44px]">
+              Read Article &rarr;
+            </a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+{% endblock %}
