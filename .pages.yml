@@ -1,0 +1,70 @@
+media:
+  input: src/images/blog
+  output: /images/blog
+  extensions:
+    - webp
+    - jpg
+    - jpeg
+    - png
+
+content:
+  - name: blog_posts
+    label: Blog Posts
+    type: collection
+    path: src/blog/posts
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields:
+        - title
+        - category
+        - date
+        - author
+      primary: title
+      sort:
+        - date
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: SEO Meta Description
+        type: text
+        required: true
+      - name: date
+        label: Publish Date
+        type: date
+        required: true
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          values:
+            - Root Canal & Tooth Pain
+            - Gum Care & Cleaning
+            - Fillings & Aesthetics
+            - Braces & Alignment
+            - Implants & Dentures
+            - Family Oral Health
+      - name: author
+        label: Author
+        type: string
+        default: Dr. Shubham Gupta
+      - name: image
+        label: Featured Image
+        type: image
+        required: true
+      - name: image_alt
+        label: Featured Image Alt Text
+        type: string
+        required: true
+      - name: body
+        label: Article Content
+        type: rich-text
+        options:
+          format: markdown
