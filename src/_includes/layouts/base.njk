@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="{{ lang | default('en') }}">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C5F4TJDT9Y"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-C5F4TJDT9Y');
-
-  // Track WhatsApp and Call button clicks
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest('a');
-    if (!a) return;
-    if (a.href.indexOf('wa.me') !== -1) gtag('event', 'whatsapp_click', { link_url: a.href });
-    if (a.href.indexOf('tel:') === 0) gtag('event', 'call_click', { link_url: a.href });
-  });
-</script>
-<meta name="google-site-verification" content="aPHh8ovxqrKPwHgk3Agj48_yFdcwgwfE5wGXk1l-0pw" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="aPHh8ovxqrKPwHgk3Agj48_yFdcwgwfE5wGXk1l-0pw" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C5F4TJDT9Y"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-C5F4TJDT9Y');
+
+    // Track WhatsApp and Call button clicks
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a');
+      if (!a) return;
+      if (a.href.indexOf('wa.me') !== -1) gtag('event', 'whatsapp_click', { link_url: a.href });
+      if (a.href.indexOf('tel:') === 0) gtag('event', 'call_click', { link_url: a.href });
+    });
+  </script>
+
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}" />
   {% set fullCanonical = (canonicalPath or page.url) | absoluteUrl(site.url) %}
@@ -29,7 +31,6 @@
   <link rel="alternate" hreflang="{{ alt.hreflang }}" href="{{ alt.href }}" />
   {% endfor %}
   {% endif %}
-
   <meta property="og:type" content="{{ ogType | default('website') }}" />
   <meta property="og:title" content="{{ ogTitle or title }}" />
   <meta property="og:description" content="{{ ogDescription or description }}" />
